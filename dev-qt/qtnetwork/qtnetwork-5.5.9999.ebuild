@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qtbase"
@@ -26,6 +26,10 @@ RDEPEND="${DEPEND}
 	connman? ( net-misc/connman )
 	networkmanager? ( net-misc/networkmanager )
 "
+
+PATCHES=(
+	"${FILESDIR}/${PN}-5.5-socklen_t.patch" # bug 554556
+)
 
 QT5_TARGET_SUBDIRS=(
 	src/network

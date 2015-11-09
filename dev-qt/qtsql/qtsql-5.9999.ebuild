@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qtbase"
@@ -21,7 +21,7 @@ REQUIRED_USE="
 DEPEND="
 	~dev-qt/qtcore-${PV}
 	freetds? ( dev-db/freetds )
-	mysql? ( virtual/mysql:= )
+	mysql? ( virtual/libmysqlclient:= )
 	oci8? ( dev-db/oracle-instantclient-basic )
 	odbc? ( || ( dev-db/unixODBC dev-db/libiodbc ) )
 	postgres? ( dev-db/postgresql:* )

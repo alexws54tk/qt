@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit qt5-build virtualx
@@ -14,12 +14,11 @@ fi
 IUSE=""
 
 RDEPEND="
-	>=dev-qt/qtcore-${PV}:5
-	>=dev-qt/qtdeclarative-${PV}:5
-	>=dev-qt/qtxmlpatterns-${PV}:5
+	~dev-qt/qtcore-${PV}:5
+	~dev-qt/qtdeclarative-${PV}:5
 "
 DEPEND="${RDEPEND}
-	test? ( >=dev-qt/qtgui-${PV}:5 )
+	test? ( ~dev-qt/qtgui-${PV}:5 )
 "
 
 src_test() {

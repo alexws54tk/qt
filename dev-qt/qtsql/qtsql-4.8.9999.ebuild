@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit multilib qt4-build-multilib
@@ -8,7 +8,7 @@ inherit multilib qt4-build-multilib
 DESCRIPTION="The SQL module for the Qt toolkit"
 
 if [[ ${QT4_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd"
 fi
 
 IUSE="freetds mysql oci8 odbc postgres qt3support +sqlite"
@@ -20,7 +20,7 @@ REQUIRED_USE="
 DEPEND="
 	~dev-qt/qtcore-${PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
 	freetds? ( dev-db/freetds )
-	mysql? ( >=virtual/mysql-5.6-r2:=[${MULTILIB_USEDEP}] )
+	mysql? ( virtual/libmysqlclient:=[${MULTILIB_USEDEP}] )
 	oci8? ( >=dev-db/oracle-instantclient-basic-11.2.0.4[${MULTILIB_USEDEP}] )
 	odbc? ( || (
 		>=dev-db/unixODBC-2.3.2-r2[${MULTILIB_USEDEP}]

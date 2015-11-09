@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qtlocation"
@@ -16,12 +16,15 @@ fi
 IUSE="geoclue qml"
 
 RDEPEND="
-	>=dev-qt/qtcore-${PV}:5
+	~dev-qt/qtcore-${PV}:5
 	geoclue? (
 		app-misc/geoclue:0
 		dev-libs/glib:2
 	)
-	qml? ( >=dev-qt/qtdeclarative-${PV}:5 )
+	qml? (
+		~dev-qt/qtdeclarative-${PV}:5
+		~dev-qt/qtnetwork-${PV}:5
+	)
 "
 DEPEND="${RDEPEND}"
 

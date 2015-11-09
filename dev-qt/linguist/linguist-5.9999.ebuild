@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qttools"
@@ -15,12 +15,12 @@ fi
 IUSE=""
 
 DEPEND="
-	>=dev-qt/designer-${PV}:5
-	>=dev-qt/qtcore-${PV}:5
-	>=dev-qt/qtgui-${PV}:5
-	>=dev-qt/qtprintsupport-${PV}:5
-	>=dev-qt/qtwidgets-${PV}:5
-	>=dev-qt/qtxml-${PV}:5
+	~dev-qt/designer-${PV}:5
+	~dev-qt/qtcore-${PV}:5
+	~dev-qt/qtgui-${PV}:5
+	~dev-qt/qtprintsupport-${PV}:5
+	~dev-qt/qtwidgets-${PV}:5
+	~dev-qt/qtxml-${PV}:5
 "
 RDEPEND="${DEPEND}"
 

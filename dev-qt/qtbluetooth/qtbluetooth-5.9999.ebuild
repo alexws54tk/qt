@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qtconnectivity"
@@ -9,19 +9,20 @@ inherit qt5-build
 DESCRIPTION="Bluetooth support library for the Qt5 framework"
 
 if [[ ${QT5_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm ~x86"
 fi
 
 IUSE="qml"
 
 RDEPEND="
-	>=dev-qt/qtconcurrent-${PV}:5
-	>=dev-qt/qtcore-${PV}:5
-	>=dev-qt/qtdbus-${PV}:5
+	~dev-qt/qtconcurrent-${PV}:5
+	~dev-qt/qtcore-${PV}:5
+	~dev-qt/qtdbus-${PV}:5
 	>=net-wireless/bluez-5
-	qml? ( >=dev-qt/qtdeclarative-${PV}:5 )
+	qml? ( ~dev-qt/qtdeclarative-${PV}:5 )
 "
 DEPEND="${RDEPEND}
+	~dev-qt/qtnetwork-${PV}:5
 	virtual/pkgconfig
 "
 

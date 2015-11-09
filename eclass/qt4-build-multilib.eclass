@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 # @ECLASS: qt4-build-multilib.eclass
 # @MAINTAINER:
@@ -637,10 +637,10 @@ qt4_qmake() {
 	local projectdir=${PWD/#${BUILD_DIR}/${S}}
 
 	"${BUILD_DIR}"/bin/qmake \
+		"${projectdir}" \
 		CONFIG+=nostrip \
 		LIBS+=-L"${QT4_LIBDIR}" \
-		"${projectdir}" \
-		"$@" \
+		"${myqmakeargs[@]}" \
 		|| die "qmake failed (${projectdir#${S}/})"
 }
 

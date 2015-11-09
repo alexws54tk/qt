@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 QT5_MODULE="qtbase"
@@ -14,7 +14,7 @@ fi
 
 # TODO: directfb, linuxfb, kms integration in eglfs
 
-IUSE="accessibility dbus egl eglfs evdev +gif gles2 gtkstyle
+IUSE="accessibility dbus egl eglfs evdev +gif gles2 gtk
 	ibus jpeg libinput +png tslib tuio +udev +xcb"
 REQUIRED_USE="
 	|| ( eglfs xcb )
@@ -22,6 +22,7 @@ REQUIRED_USE="
 	eglfs? ( egl )
 	ibus? ( dbus )
 	libinput? ( udev )
+	xcb? ( gles2? ( egl ) )
 "
 
 RDEPEND="
@@ -35,8 +36,9 @@ RDEPEND="
 	dbus? ( ~dev-qt/qtdbus-${PV} )
 	egl? ( media-libs/mesa[egl] )
 	evdev? ( sys-libs/mtdev )
-	gtkstyle? (
+	gtk? (
 		x11-libs/gtk+:2
+		x11-libs/libX11
 		x11-libs/pango
 		!!x11-libs/cairo[qt4]
 	)
@@ -96,8 +98,7 @@ QT5_GENTOO_CONFIG=(
 	!gif:no-gif:
 	gles2::OPENGL_ES
 	gles2:opengles2:OPENGL_ES_2
-	gtkstyle:gtkstyle:
-	gtkstyle:gtk2:STYLE_GTK
+	gtk:gtk2:
 	!:no-gui:
 	:system-harfbuzz:HARFBUZZ
 	!:no-harfbuzz:
@@ -149,7 +150,7 @@ src_configure() {
 		-fontconfig
 		-system-freetype
 		$(usex gif '' -no-gif)
-		$(qt_use gtkstyle)
+		$(qt_use gtk)
 		-system-harfbuzz
 		$(qt_use jpeg libjpeg system)
 		$(qt_use libinput)

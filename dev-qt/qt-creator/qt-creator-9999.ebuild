@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-qt/qt-creator/qt-creator-3.4.0.ebuild,v 1.4 2015/05/04 19:50:14 pesa Exp $
+# $Id$
 
 EAPI=5
 PLOCALES="cs de fr ja pl ru sl uk zh_CN zh_TW"
@@ -9,6 +9,7 @@ inherit eutils l10n multilib qmake-utils virtualx
 DESCRIPTION="Lightweight IDE for C++/QML development centering around Qt"
 HOMEPAGE="http://doc.qt.io/qtcreator/"
 LICENSE="|| ( LGPL-2.1 LGPL-3 )"
+SLOT="0"
 
 if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
@@ -25,8 +26,6 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-SLOT="0"
-
 QTC_PLUGINS=('android:android|qmakeandroidsupport' autotools:autotoolsprojectmanager baremetal
 	bazaar clang:clangcodemodel clearcase cmake:cmakeprojectmanager cvs git ios mercurial
 	perforce python:pythoneditor qbs:qbsprojectmanager qnx subversion valgrind winrt)
@@ -36,7 +35,7 @@ IUSE="doc systemd test webkit ${QTC_PLUGINS[@]%:*}"
 QT_PV="5.4.0:5"
 
 RDEPEND="
-	=dev-libs/botan-1.10*[threads]
+	=dev-libs/botan-1.10*[-bindist,threads]
 	>=dev-qt/designer-${QT_PV}
 	>=dev-qt/qtconcurrent-${QT_PV}
 	>=dev-qt/qtcore-${QT_PV}
@@ -45,17 +44,16 @@ RDEPEND="
 	>=dev-qt/qthelp-${QT_PV}
 	>=dev-qt/qtnetwork-${QT_PV}[ssl]
 	>=dev-qt/qtprintsupport-${QT_PV}
-	>=dev-qt/qtquick1-${QT_PV}
 	>=dev-qt/qtquickcontrols-${QT_PV}
 	>=dev-qt/qtscript-${QT_PV}
-	>=dev-qt/qtsql-${QT_PV}
+	>=dev-qt/qtsql-${QT_PV}[sqlite]
 	>=dev-qt/qtsvg-${QT_PV}
 	>=dev-qt/qtwidgets-${QT_PV}
 	>=dev-qt/qtx11extras-${QT_PV}
 	>=dev-qt/qtxml-${QT_PV}
 	>=sys-devel/gdb-7.5[client,python]
-	clang? ( >=sys-devel/clang-3.2:= )
-	qbs? ( >=dev-util/qbs-1.4.0-r1 )
+	clang? ( >=sys-devel/clang-3.6:= )
+	qbs? ( >=dev-util/qbs-1.4.2 )
 	systemd? ( sys-apps/systemd:= )
 	webkit? ( >=dev-qt/qtwebkit-${QT_PV} )
 "
@@ -82,6 +80,19 @@ PDEPEND="
 	valgrind? ( dev-util/valgrind )
 "
 
+src_unpack() {
+	if [[ $(gcc-major-version) -lt 4 ]] || [[ $(gcc-major-version) -eq 4 && $(gcc-minor-version) -lt 7 ]]; then
+		eerror "GCC version 4.7 or later is required to build Qt Creator"
+		die "GCC >= 4.7 required"
+	fi
+
+	if [[ ${PV} == *9999 ]]; then
+		git-r3_src_unpack
+	else
+		default
+	fi
+}
+
 src_prepare() {
 	# disable unwanted plugins
 	for plugin in "${QTC_PLUGINS[@]#[+-]}"; do
@@ -99,10 +110,9 @@ src_prepare() {
 	fi
 
 	# disable broken or unreliable tests
-	sed -i -e '/lexer/d' tests/auto/cplusplus/cplusplus.pro || die
-	sed -i -e '/dumpers\.pro/d' tests/auto/debugger/debugger.pro || die
+	sed -i -e '/SUBDIRS/ s/\<dumpers\>//' tests/auto/debugger/debugger.pro || die
 	sed -i -e '/CONFIG -=/ s/$/ testcase/' tests/auto/extensionsystem/pluginmanager/correctplugins1/plugin?/plugin?.pro || die
-	sed -i -e '/parsertests\.pro/d' tests/auto/valgrind/memcheck/memcheck.pro || die
+	sed -i -e '/SUBDIRS/ s/\<memcheck\>//' tests/auto/valgrind/valgrind.pro || die
 
 	# fix translations
 	sed -i -e "/^LANGUAGES =/ s:=.*:= $(l10n_get_locales):" \
@@ -115,8 +125,8 @@ src_prepare() {
 src_configure() {
 	eqmake5 IDE_LIBRARY_BASENAME="$(get_libdir)" \
 		IDE_PACKAGE_MODE=1 \
-		LLVM_INSTALL_DIR="${EPREFIX}/usr" \
-		QBS_INSTALL_DIR="${EPREFIX}/usr" \
+		$(use clang && echo LLVM_INSTALL_DIR="${EPREFIX}/usr") \
+		$(use qbs && echo QBS_INSTALL_DIR="${EPREFIX}/usr") \
 		CONFIG+=qbs_disable_rpath \
 		CONFIG+=qbs_enable_project_file_updates \
 		$(use systemd && echo CONFIG+=journald) \

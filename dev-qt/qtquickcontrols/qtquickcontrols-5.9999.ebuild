@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit qt5-build
@@ -11,13 +11,13 @@ if [[ ${QT5_BUILD_TYPE} == release ]]; then
 	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ppc64 ~x86"
 fi
 
-IUSE="widgets"
+IUSE="+widgets"
 
 DEPEND="
-	>=dev-qt/qtcore-${PV}:5
-	>=dev-qt/qtdeclarative-${PV}:5
-	>=dev-qt/qtgui-${PV}:5
-	widgets? ( >=dev-qt/qtwidgets-${PV}:5 )
+	~dev-qt/qtcore-${PV}:5
+	~dev-qt/qtdeclarative-${PV}:5
+	~dev-qt/qtgui-${PV}:5
+	widgets? ( ~dev-qt/qtwidgets-${PV}:5 )
 "
 RDEPEND="${DEPEND}"
 

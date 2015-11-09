@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit qt5-build
@@ -16,6 +16,7 @@ IUSE=""
 RDEPEND="
 	~dev-qt/qtcore-${PV}
 	~dev-qt/qtgui-${PV}[xcb]
-	~dev-qt/qtwidgets-${PV}
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	test? ( ~dev-qt/qtwidgets-${PV} )
+"

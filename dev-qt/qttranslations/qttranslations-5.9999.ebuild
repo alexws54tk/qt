@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit qt5-build
@@ -14,7 +14,7 @@ fi
 IUSE=""
 
 DEPEND="
-	>=dev-qt/linguist-tools-${PV}:5
-	>=dev-qt/qtcore-${PV}:5
+	~dev-qt/linguist-tools-${PV}:5
+	~dev-qt/qtcore-${PV}:5
 "
 RDEPEND=""

@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 inherit qt5-build
@@ -15,11 +15,13 @@ IUSE="egl qml wayland-compositor xcomposite"
 
 DEPEND="
 	>=dev-libs/wayland-1.4.0
-	>=dev-qt/qtcore-${PV}:5
-	>=dev-qt/qtgui-${PV}:5[egl=]
+	~dev-qt/qtcore-${PV}:5
+	~dev-qt/qtgui-${PV}:5[egl=]
 	media-libs/mesa[egl?]
 	>=x11-libs/libxkbcommon-0.2.0
-	qml? ( >=dev-qt/qtdeclarative-${PV}:5 )
+	wayland-compositor? (
+		qml? ( ~dev-qt/qtdeclarative-${PV}:5 )
+	)
 	xcomposite? (
 		x11-libs/libX11
 		x11-libs/libXcomposite
@@ -33,6 +35,7 @@ src_configure() {
 	fi
 
 	qt_use_compile_test xcomposite
+	qt_use_disable_mod qml quick src/compositor/compositor_api/compositor_api.pri
 
 	qt5-build_src_configure
 }
